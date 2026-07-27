@@ -26,9 +26,9 @@ public class DiscordService
                     .AddJsonFile("appsettings.Local.json")
                     .Build();
 #endif
-        _config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .Build();
+        //_config = new ConfigurationBuilder()
+        //    .AddJsonFile("appsettings.json")
+        //    .Build();
     }
 
     public async Task StartAsync()
