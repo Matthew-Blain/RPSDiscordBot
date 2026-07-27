@@ -20,14 +20,9 @@ public class DiscordService
         });
 
         _interactions = new InteractionService(_client);
-
-#if DEBUG
         _config = new ConfigurationBuilder()
-                    .AddJsonFile("appsettings.Local.json")
-                    .Build();
-#endif
-        _config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
+            .AddJsonFile("appsettings.Local.json", optional: true)
+            .AddEnvironmentVariables()
             .Build();
     }
 
