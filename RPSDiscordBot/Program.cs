@@ -1,2 +1,17 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using RPSDiscordBot;
+
+internal class Program
+{
+    static async Task Main(string[] args)
+    {
+        try
+        {
+            await new DiscordService().StartAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            Console.ReadKey();
+        }
+    }
+}
