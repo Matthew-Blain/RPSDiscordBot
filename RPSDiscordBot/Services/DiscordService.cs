@@ -26,9 +26,9 @@ public class DiscordService
                     .AddJsonFile("appsettings.Local.json")
                     .Build();
 #endif
-        //_config = new ConfigurationBuilder()
-        //    .AddJsonFile("appsettings.json")
-        //    .Build();
+        _config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
     }
 
     public async Task StartAsync()
@@ -46,36 +46,18 @@ public class DiscordService
 
     private async Task ClientReady()
     {
-        try
-        {
-            await _interactions.RegisterCommandsGloballyAsync(true);
-            Console.WriteLine("Commands registered successfully.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
+        await _interactions.RegisterCommandsGloballyAsync(true);
     }
 
     private async Task InteractionCreated(SocketInteraction interaction)
     {
-        try
+        var context = new SocketInteractionContext(_client, interaction);
+
+        var result = await _interactions.ExecuteCommandAsync(context, null);
+
+        if (!result.IsSuccess && interaction.Type == InteractionType.ApplicationCommand)
         {
-            var context = new SocketInteractionContext(_client, interaction);
-
-            var result = await _interactions.ExecuteCommandAsync(context, null);
-
-            Console.WriteLine($"Success: {result.IsSuccess}");
-
-            if (!result.IsSuccess)
-            {
-                Console.WriteLine(result.Error);
-                Console.WriteLine(result.ErrorReason);
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
+            await interaction.GetOriginalResponseAsync();
         }
     }
 }

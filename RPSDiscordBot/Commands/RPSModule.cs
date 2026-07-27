@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace RPSDiscordBot.Commands
 {
-    [CommandContextType(InteractionContextType.PrivateChannel)]
     public class RPSModule : InteractionModuleBase<SocketInteractionContext>
     {
         private readonly RpsService _rpsService = new RpsService();
 
+        [EnabledInDm(true)]
         [SlashCommand("rps", "Play Rock Paper Scissors")]
         public async Task Rps(IUser opponent)
         {
@@ -26,21 +26,13 @@ namespace RPSDiscordBot.Commands
                             $"{EmojiHelper.Get(result.PlayerMove)} {result.PlayerMove}", true)
                         .AddField(opponent.Username,
                             $"{EmojiHelper.Get(result.OpponentMove)} {result.OpponentMove}", true)
-                        .WithDescription(result.WinnerId == 0
-                            ? "🤝 It's a draw!" : result.WinnerId == Context.User.Id
+                        .WithDescription(result.WinnerId == Context.User.Id
                             ? $"🏆 {Context.User.Mention} wins!"
                             : $"🏆 {opponent.Mention} wins!")
                         .WithColor(Color.Blue)
                         .Build();
 
-            try
-            {
-                await RespondAsync(embed: embed);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            await RespondAsync(embed: embed);
         }
     }
 }
