@@ -68,3 +68,8 @@ Desktop.ini
 # Generated Files
 # =========================
 Generated/
+
+# =========================
+# Local
+# =========================
+appsettings.Local.json
