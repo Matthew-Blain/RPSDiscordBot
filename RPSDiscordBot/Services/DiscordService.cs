@@ -46,18 +46,36 @@ public class DiscordService
 
     private async Task ClientReady()
     {
-        await _interactions.RegisterCommandsGloballyAsync(true);
+        try
+        {
+            await _interactions.RegisterCommandsGloballyAsync(true);
+            Console.WriteLine("Commands registered successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
     }
 
     private async Task InteractionCreated(SocketInteraction interaction)
     {
-        var context = new SocketInteractionContext(_client, interaction);
-
-        var result = await _interactions.ExecuteCommandAsync(context, null);
-
-        if (!result.IsSuccess && interaction.Type == InteractionType.ApplicationCommand)
+        try
         {
-            await interaction.GetOriginalResponseAsync();
+            var context = new SocketInteractionContext(_client, interaction);
+
+            var result = await _interactions.ExecuteCommandAsync(context, null);
+
+            Console.WriteLine($"Success: {result.IsSuccess}");
+
+            if (!result.IsSuccess)
+            {
+                Console.WriteLine(result.Error);
+                Console.WriteLine(result.ErrorReason);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
         }
     }
 }
