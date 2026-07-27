@@ -32,7 +32,8 @@ public class DiscordService
         _client.InteractionCreated += InteractionCreated;
 
         await _interactions.AddModulesAsync(Assembly.GetExecutingAssembly(), null);
-
+        
+        Console.WriteLine($"Token loaded: {!string.IsNullOrWhiteSpace(_config["Bot:Token"])}");
         await _client.LoginAsync(TokenType.Bot, _config["Bot:Token"]);
         await _client.StartAsync();
 
