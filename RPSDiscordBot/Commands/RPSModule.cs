@@ -26,7 +26,9 @@ namespace RPSDiscordBot.Commands
                             $"{EmojiHelper.Get(result.PlayerMove)} {result.PlayerMove}", true)
                         .AddField(opponent.Username,
                             $"{EmojiHelper.Get(result.OpponentMove)} {result.OpponentMove}", true)
-                        .WithDescription(result.WinnerId == Context.User.Id
+                        .WithDescription(result.WinnerId == 0
+                            ? "🤝 It's a draw!"
+                            : result.WinnerId == Context.User.Id
                             ? $"🏆 {Context.User.Mention} wins!"
                             : $"🏆 {opponent.Mention} wins!")
                         .WithColor(Color.Blue)
