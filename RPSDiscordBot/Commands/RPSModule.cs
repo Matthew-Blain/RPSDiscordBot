@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace RPSDiscordBot.Commands
 {
+    [CommandContextType(InteractionContextType.PrivateChannel)]
     public class RPSModule : InteractionModuleBase<SocketInteractionContext>
     {
         private readonly RpsService _rpsService = new RpsService();
 
-        [EnabledInDm(true)]
         [SlashCommand("rps", "Play Rock Paper Scissors")]
         public async Task Rps(IUser opponent)
         {
